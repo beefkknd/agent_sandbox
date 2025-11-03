@@ -1,0 +1,35 @@
+[project]
+name = "agent-sanbox"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "elasticsearch==8.11.1",
+    "fastapi>=0.119.0",
+    "fastmcp>=2.12.4",
+    "langchain>=0.3.27",
+    "langchain-core>=0.3.79",
+    "langchain-google-genai>=2.1.12",
+    "langchain-mcp-adapters>=0.1.11",
+    "langchain-openai>=0.3.35",
+    "langgraph>=0.6.10",
+    "uvicorn>=0.37.0",
+    "python-dotenv>=0.21.0",
+    "langchain-ollama>=0.3.10",
+    "jsons>=1.6.3",
+    "pytest>=8.4.2",
+    "asyncio>=4.0.0",
+    "pytest-asyncio>=1.2.0",
+    "backoff>=2.2.1",
+]
+
+[project.optional-dependencies]
+test = [
+    "pytest>=7.0.0",
+    "pytest-asyncio>=0.21.0",
+    "pytest-mock>=3.10.0",
+]
+
+[tool.setuptools.packages.find]
+include = ["agent_app*", "sample_tools*"]
