@@ -12,8 +12,6 @@ The `langchain_gemini_agent.py` implements an intelligent orchestration system t
 
 This is a **demonstration agent** showcasing AI's ability to reason, plan, and adapt. For production use, additional enhancements would be needed (error recovery, human-in-the-loop validation, extended tool sets, etc.).
 
----
-
 ## Architecture: Multi-Node Agent Graph
 
 The agent follows a graph-based architecture with specialized nodes, each serving a distinct role:
@@ -65,8 +63,6 @@ The agent follows a graph-based architecture with specialized nodes, each servin
   - Presents the answer in a clear, concise format
 - **Key Feature**: Synthesizes information from multiple sub-tasks into a cohesive answer
 
----
-
 ## Agent Workflow
 
 ```mermaid
@@ -116,9 +112,7 @@ In a typical execution, you might observe:
 5. **Refinement**: Agent rewrites the query based on mapping information
 6. **Success**: Query executes successfully and returns results
 
-This iterative process demonstrates the **AI's reasoning capabilities**it doesn't just execute pre-defined steps; it adapts based on feedback and learns from failures.
-
----
+This iterative process demonstrates the **AI's reasoning capabilities**—it doesn't just execute pre-defined steps; it adapts based on feedback and learns from failures.
 
 ## Sample Tools: Elasticsearch Integration
 
@@ -147,8 +141,6 @@ These tools enable the agent to:
 - **Adapt** queries based on schema constraints
 
 **Location**: `sample_tools/tools/elastic_tool.py`
-
----
 
 ## Getting Started
 
@@ -210,14 +202,11 @@ Execute the main agent script:
 uv run agent_app/langchain_gemini_agent.py
 ```
 
----
-
 ## Example Execution Output
 
 Below is a sample execution demonstrating the agent's reasoning flow:
 
 ```
-"""
 Initializing models...
 - Orchestrator: gemini-2.5-flash
 - Assistant: gemini-2.5-flash
@@ -238,22 +227,18 @@ E0000 00:00:1762129741.326891   49173 alts_credentials.cc:93] ALTS creds ignored
 [Orchestrator]: New Task Created: Get the geographical coordinates for the Port of Miami.
 
    [Assistant] Task: "Get the geographical coordinates for the Port of Miami."
-Key 'additionalProperties' is not supported in schema, ignoring
    [Assistant]: Calling tool(s): get_all_elastic_indices
       [Tool: get_all_elastic_indices] Executed
 
    [Assistant] Task: "Get the geographical coordinates for the Port of Miami."
-Key 'additionalProperties' is not supported in schema, ignoring
    [Assistant]: Calling tool(s): get_elastic_index_mapping
       [Tool: get_elastic_index_mapping] Executed
 
    [Assistant] Task: "Get the geographical coordinates for the Port of Miami."
-Key 'additionalProperties' is not supported in schema, ignoring
    [Assistant]: Calling tool(s): run_elastic_query
       [Tool: run_elastic_query] Executed
 
    [Assistant] Task: "Get the geographical coordinates for the Port of Miami."
-Key 'additionalProperties' is not supported in schema, ignoring
    [Assistant]: Reaching a final answer.
    [Consolidator] Task: "Get the geographical coordinates for the Port of Miami."
    [Consolidator]: storing final answer...
@@ -265,17 +250,14 @@ Key 'additionalProperties' is not supported in schema, ignoring
 [Orchestrator]: New Task Created: Find vessels whose last reported port visit is within 10km of latitude 25.783333, longitude -80.183333.
 
    [Assistant] Task: "Find vessels whose last reported port visit is within 10km of latitude 25.783333, longitude -80.183333."
-Key 'additionalProperties' is not supported in schema, ignoring
    [Assistant]: Calling tool(s): get_elastic_index_mapping
       [Tool: get_elastic_index_mapping] Executed
 
    [Assistant] Task: "Find vessels whose last reported port visit is within 10km of latitude 25.783333, longitude -80.183333."
-Key 'additionalProperties' is not supported in schema, ignoring
    [Assistant]: Calling tool(s): run_elastic_query
       [Tool: run_elastic_query] Executed
 
    [Assistant] Task: "Find vessels whose last reported port visit is within 10km of latitude 25.783333, longitude -80.183333."
-Key 'additionalProperties' is not supported in schema, ignoring
    [Assistant]: Reaching a final answer.
    [Consolidator] Task: "Find vessels whose last reported port visit is within 10km of latitude 25.783333, longitude -80.183333."
    [Consolidator]: storing final answer...
@@ -326,10 +308,7 @@ Example flow:
 9. Assistant rewrites query using correct geo_distance syntax
 10. Query succeeds, returns vessel data
 11. Summarizer generates final answer
-"""
 ```
-
----
 
 ## Key Takeaways
 
@@ -344,7 +323,6 @@ Example flow:
 ### Production Considerations
 
 This is a **demonstration agent**. For production deployment, consider:
-
 - **Enhanced Error Handling**: Retry logic, fallback strategies
 - **Human-in-the-Loop**: Approval gates for critical operations
 - **Extended Tool Suite**: Integration with more data sources and APIs
@@ -353,40 +331,32 @@ This is a **demonstration agent**. For production deployment, consider:
 - **Observability**: Logging, tracing, metrics collection
 - **Scalability**: Distributed task execution, load balancing
 
----
-
 ## Project Structure
 
 ```
 agent_sanbox/
-   agent_app/
-      langchain_gemini_agent.py   # Main agent implementation
-      llm_factory.py               # LLM provider abstraction
-      config.py                    # Configuration management
-   sample_tools/
-      server.py                    # MCP server implementation
-      tools/
-          elastic.py               # Elasticsearch client
-          elastic_tool.py          # MCP tool wrappers
-   tests/                           # Test suite
-   .env                             # Environment variables
-   pyproject.toml                   # Project dependencies
-   README.md                        # This file
+├── agent_app/
+│   ├── langchain_gemini_agent.py   # Main agent implementation
+│   ├── llm_factory.py               # LLM provider abstraction
+│   └── config.py                    # Configuration management
+├── sample_tools/
+│   ├── server.py                    # MCP server implementation
+│   └── tools/
+│       ├── elastic.py               # Elasticsearch client
+│       └── elastic_tool.py          # MCP tool wrappers
+├── tests/                           # Test suite
+├── .env                             # Environment variables
+├── pyproject.toml                   # Project dependencies
+└── README.md                        # This file
 ```
-
----
 
 ## License
 
 MIT License
 
----
-
 ## Contributing
 
 Contributions are welcome! Please open an issue or submit a pull request.
-
----
 
 ## Acknowledgments
 
