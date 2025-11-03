@@ -2,23 +2,23 @@
 
 This repository demonstrates a **general-purpose AI agent** built using LangChain and Google's Gemini models. The agent uses **Chain-of-Thought (CoT)** reasoning to solve complex problems step by step by breaking them down into smaller, manageable tasks.
 
-## Overview
+## 🚀 Overview
 
 The `langchain_gemini_agent.py` implements an intelligent orchestration system that:
-- **Decomposes complex queries** into smaller sub-tasks
-- **Executes tasks systematically** using available tools
-- **Demonstrates AI reasoning capabilities** through iterative problem-solving
-- **Integrates with Elasticsearch** via Model Context Protocol (MCP) tools
+- 🧠 **Decomposes complex queries** into smaller sub-tasks
+- 🛠️ **Executes tasks systematically** using available tools
+- 🤖 **Demonstrates AI reasoning capabilities** through iterative problem-solving
+- 🔌 **Integrates with Elasticsearch** via Model Context Protocol (MCP) tools
 
 This is a **demonstration agent** showcasing AI's ability to reason, plan, and adapt. For production use, additional enhancements would be needed (error recovery, human-in-the-loop validation, extended tool sets, etc.).
 
-## Architecture: Multi-Node Agent Graph
+## 🏛️ Architecture: Multi-Node Agent Graph
 
 The agent follows a graph-based architecture with specialized nodes, each serving a distinct role:
 
 ### Node Descriptions
 
-#### 1. **Orchestrator Node**
+#### 1. 👑 **Orchestrator Node**
 - **Role**: Master planner and task coordinator
 - **Responsibilities**:
   - Analyzes the user's original goal
@@ -28,7 +28,7 @@ The agent follows a graph-based architecture with specialized nodes, each servin
   - Stops execution when sufficient information is gathered
 - **Key Feature**: Uses CoT reasoning to avoid unnecessary work
 
-#### 2. **Assistant Node** (`my_assistant`)
+#### 2. 👷 **Assistant Node** (`my_assistant`)
 - **Role**: Principal Engineer / Worker Agent
 - **Responsibilities**:
   - Receives a single task from the orchestrator
@@ -38,7 +38,7 @@ The agent follows a graph-based architecture with specialized nodes, each servin
   - Provides final answers or suggestions for each task
 - **Key Feature**: Uses a global scratchpad to avoid redundant tool calls across different tasks
 
-#### 3. **Tool Execution Node**
+#### 3. ⚙️ **Tool Execution Node**
 - **Role**: Tool executor and result aggregator
 - **Responsibilities**:
   - Executes tool calls (potentially in parallel)
@@ -47,7 +47,7 @@ The agent follows a graph-based architecture with specialized nodes, each servin
   - Updates both task-specific history and global scratchpad
 - **Key Feature**: Executes multiple tool calls concurrently for efficiency
 
-#### 4. **Tool Result Consolidator Node**
+#### 4. ✅ **Tool Result Consolidator Node**
 - **Role**: Task completion handler
 - **Responsibilities**:
   - Extracts the final answer from the assistant's response
@@ -55,7 +55,7 @@ The agent follows a graph-based architecture with specialized nodes, each servin
   - Signals completion back to the orchestrator
 - **Key Feature**: Ensures each task has a clear outcome before moving forward
 
-#### 5. **Summarize Answer Node**
+#### 5. 📝 **Summarize Answer Node**
 - **Role**: Final report generator
 - **Responsibilities**:
   - Aggregates all completed tasks and their answers
@@ -63,17 +63,17 @@ The agent follows a graph-based architecture with specialized nodes, each servin
   - Presents the answer in a clear, concise format
 - **Key Feature**: Synthesizes information from multiple sub-tasks into a cohesive answer
 
-## Agent Workflow
+## 🌊 Agent Workflow
 
 ```mermaid
 graph TD
-    Start([User Query]) --> Orchestrator[Orchestrator Node]
+    Start([User Query]) --> Orchestrator[👑 Orchestrator Node]
 
-    Orchestrator -->|Creates Task| Assistant[Assistant Node]
-    Orchestrator -->|All Done| Summarize[Summarize Answer Node]
+    Orchestrator -->|Creates Task| Assistant[👷 Assistant Node]
+    Orchestrator -->|All Done| Summarize[📝 Summarize Answer Node]
 
-    Assistant -->|Needs Tools| ToolExecution[Tool Execution Node]
-    Assistant -->|Has Answer| Consolidator[Tool Result Consolidator Node]
+    Assistant -->|Needs Tools| ToolExecution[⚙️ Tool Execution Node]
+    Assistant -->|Has Answer| Consolidator[✅ Tool Result Consolidator Node]
 
     ToolExecution -->|Results| Assistant
 
@@ -90,20 +90,20 @@ graph TD
 
 ### Execution Flow Characteristics
 
-#### Task Breakdown Strategy
+#### ✨ Task Breakdown Strategy
 The orchestrator breaks down complex queries into discrete sub-tasks. For example, a query like *"Are there vessels that last visited the port of Miami within a 10km radius?"* might be broken down into:
 1. Find all available Elasticsearch indices
 2. Get the mapping for the vessel index
 3. Search for vessels near Miami coordinates
 4. Refine the query based on mapping constraints
 
-#### Non-Deterministic Task Ordering
+#### 🔀 Non-Deterministic Task Ordering
 While the agent typically follows a logical progression (e.g., finding indices first, then getting mappings, then searching), the **exact order is not guaranteed**. The orchestrator makes dynamic decisions based on:
 - What information has been gathered
 - What the next most critical piece of information is
 - Current task outcomes (success/failure)
 
-#### Adaptive Reasoning Example
+#### 💡 Adaptive Reasoning Example
 In a typical execution, you might observe:
 1. **Discovery Phase**: Agent finds available indices
 2. **Schema Understanding**: Agent requests mapping to understand data structure
@@ -114,43 +114,43 @@ In a typical execution, you might observe:
 
 This iterative process demonstrates the **AI's reasoning capabilities**—it doesn't just execute pre-defined steps; it adapts based on feedback and learns from failures.
 
-## Sample Tools: Elasticsearch Integration
+## 🛠️ Sample Tools: Elasticsearch Integration
 
 The agent integrates with **Elasticsearch** through MCP (Model Context Protocol) tools located in `sample_tools/`. These are general-purpose tools for querying and exploring Elasticsearch data:
 
 ### Available Tools
 
 1. **`get_all_elastic_indices()`**
-   - Lists all healthy, non-system indices in Elasticsearch
-   - Returns: Comma-separated string of index names
+   - 🗺️ Lists all healthy, non-system indices in Elasticsearch
+   - ↪️ Returns: Comma-separated string of index names
 
 2. **`get_elastic_index_mapping(index_name: str)`**
-   - Retrieves the mapping (schema) for a given index
-   - Returns: Human-readable, indented structure of field names and types
+   - 📄 Retrieves the mapping (schema) for a given index
+   - ↪️ Returns: Human-readable, indented structure of field names and types
 
 3. **`run_elastic_query(index_name: str, query: str | Dict, output_format: str)`**
-   - Executes Elasticsearch DSL queries
+   - 🔍 Executes Elasticsearch DSL queries
    - Supports both document search and aggregations
-   - Returns: Formatted results (JSON or text summary)
+   - ↪️ Returns: Formatted results (JSON or text summary)
    - Auto-limits results to prevent overwhelming the LLM
 
 These tools enable the agent to:
-- **Discover** available data sources
-- **Understand** data structures
-- **Query** data intelligently
-- **Adapt** queries based on schema constraints
+- 🌐 **Discover** available data sources
+- 🏗️ **Understand** data structures
+- 🔎 **Query** data intelligently
+- 🔄 **Adapt** queries based on schema constraints
 
 **Location**: `sample_tools/tools/elastic_tool.py`
 
-## Getting Started
+## 🚀 Getting Started
 
 ### Prerequisites
 
-- Python 3.12+
-- UV package manager
-- Node.js (for MCP monitoring)
-- Elasticsearch instance (local or remote)
-- Google Gemini API key
+- 🐍 Python 3.12+
+- 📦 UV package manager
+- 🟢 Node.js (for MCP monitoring)
+- 🗃️ Elasticsearch instance (local or remote)
+- 🔑 Google Gemini API key
 
 ### Installation
 
@@ -202,7 +202,7 @@ Execute the main agent script:
 uv run agent_app/langchain_gemini_agent.py
 ```
 
-## Example Execution Output
+## 📊 Example Execution Output
 
 Below is a sample execution demonstrating the agent's reasoning flow:
 
@@ -295,8 +295,9 @@ The following vessels were identified:
 *   **BALAJU**
 *   **MR BENITO**
 *   **OSPREY**
+```
 
-Example flow:
+Patial event flow:
 1. Orchestrator creates task: "Find all Elasticsearch indices"
 2. Assistant calls get_all_elastic_indices()
 3. Tool returns: vessel_locations, port_data
@@ -308,30 +309,30 @@ Example flow:
 9. Assistant rewrites query using correct geo_distance syntax
 10. Query succeeds, returns vessel data
 11. Summarizer generates final answer
-```
 
-## Key Takeaways
+## 🎯 Key Takeaways
 
 ### Demonstrated AI Capabilities
 
-1. **Task Decomposition**: Breaking complex problems into manageable steps
-2. **Adaptive Reasoning**: Learning from failures and adjusting strategies
-3. **Tool Selection**: Choosing appropriate tools based on task requirements
-4. **Context Awareness**: Using global scratchpad to avoid redundant operations
-5. **Goal-Oriented Execution**: Stopping when sufficient information is gathered
+1.  **Task Decomposition**: Breaking complex problems into manageable steps
+2.  **Adaptive Reasoning**: Learning from failures and adjusting strategies
+3.  **Tool Selection**: Choosing appropriate tools based on task requirements
+4.  **Context Awareness**: Using global scratchpad to avoid redundant operations
+5.  **Goal-Oriented Execution**: Stopping when sufficient information is gathered
 
 ### Production Considerations
 
 This is a **demonstration agent**. For production deployment, consider:
-- **Enhanced Error Handling**: Retry logic, fallback strategies
-- **Human-in-the-Loop**: Approval gates for critical operations
-- **Extended Tool Suite**: Integration with more data sources and APIs
-- **Performance Optimization**: Caching, parallel task execution
-- **Security**: Input validation, sandboxed tool execution
-- **Observability**: Logging, tracing, metrics collection
-- **Scalability**: Distributed task execution, load balancing
 
-## Project Structure
+-   **Enhanced Error Handling**: Retry logic, fallback strategies
+-   **Human-in-the-Loop**: Approval gates for critical operations
+-   **Extended Tool Suite**: Integration with more data sources and APIs
+-   **Performance Optimization**: Caching, parallel task execution
+-   **Security**: Input validation, sandboxed tool execution
+-   **Observability**: Logging, tracing, metrics collection
+-   **Scalability**: Distributed task execution, load balancing
+
+## 📂 Project Structure
 
 ```
 agent_sanbox/
@@ -350,15 +351,15 @@ agent_sanbox/
 └── README.md                        # This file
 ```
 
-## License
+## 📄 License
 
 MIT License
 
-## Contributing
+## 🙌 Contributing
 
 Contributions are welcome! Please open an issue or submit a pull request.
 
-## Acknowledgments
+## 🙏 Acknowledgments
 
 - Built with [LangChain](https://langchain.com/)
 - Powered by [Google Gemini](https://deepmind.google/technologies/gemini/)
